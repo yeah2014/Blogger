@@ -1,4 +1,5 @@
 # myeclipse config
+.myeclipse/
 eclipse/
 .classpath
 .project
