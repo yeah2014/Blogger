@@ -14,4 +14,4 @@ tmp/
 *.ear
 
 # play config
-conf/ 
+/conf/ 
