@@ -1,12 +1,15 @@
 package models;
 
 import javax.persistence.*;
-import play.libs.Codec;
 
+import com.thoughtworks.xstream.mapper.Mapper.Null;
+
+import play.libs.Codec;
+import play.db.jpa.GenericModel;
 
 @Entity
 @Table (name = "person")
-public class Person {
+public class Person extends GenericModel{
 	@Id
 	public String id;
 	
@@ -18,7 +21,7 @@ public class Person {
 	public String sex;
 	
 	@Column (name = "age")
-	public int age;
+	public Integer age;
 	
 	@Column (name = "height")
 	public String height;
@@ -26,14 +29,19 @@ public class Person {
 	@Column (name = "weight")
 	public String weight;
 	
-	public Person(String name , String sex ,
-				  int  age ,String height , String weight)
+	public Person()
 	{
-		this.id = Codec.UUID();
-		this.name = name;
-		this.sex = sex;
-		this.age = age;
-		this.height = height;
-		this.weight = weight;
+		id = Codec.UUID().replace("-", "").toUpperCase();
+	}
+	
+	public void addperson(String name ,String sex)
+	{
+		if( Person.find("name = ? And sex = ?", name ,sex).first()==null)
+		{
+		Person person = new Person();
+		person.name = name;
+		person.sex = sex;
+		person.save();
+		}
 	}
 }
